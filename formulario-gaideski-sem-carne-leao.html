@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verificação Gaideski</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #1a4a8a; font-family: 'Segoe UI', Arial, sans-serif; min-height: 100vh; display: flex; align-items: flex-start; justify-content: center; padding: 40px 16px; }
+  .card { background: #fff; border-radius: 12px; padding: 40px 36px; max-width: 560px; width: 100%; }
+  .logo-area { text-align: center; margin-bottom: 28px; }
+  .logo-area img { height: 64px; }
+  h1 { text-align: center; font-size: 20px; font-weight: 600; color: #1a3a6a; margin-bottom: 28px; }
+  .section-label { text-align: center; font-size: 12px; color: #888; letter-spacing: 0.08em; text-transform: uppercase; margin: 20px 0 16px; position: relative; }
+  .section-label::before, .section-label::after { content: ''; position: absolute; top: 50%; width: 30%; height: 1px; background: #ddd; }
+  .section-label::before { left: 0; }
+  .section-label::after { right: 0; }
+  .field { margin-bottom: 18px; }
+  label { display: block; font-size: 13px; font-weight: 500; color: #333; margin-bottom: 6px; }
+  label span { color: #c0392b; }
+  input[type="text"], input[type="email"], input[type="tel"], select, textarea {
+    width: 100%; padding: 10px 13px; border: 1px solid #ccc; border-radius: 7px;
+    font-size: 14px; color: #333; background: #fff; transition: border 0.2s;
+    appearance: none; -webkit-appearance: none;
+  }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: #1a4a8a; box-shadow: 0 0 0 3px rgba(26,74,138,0.1); }
+  select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23666' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px; }
+  textarea { resize: vertical; min-height: 80px; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  button[type="submit"] {
+    width: 100%; padding: 13px; background: #1a4a8a; color: #fff; border: none;
+    border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 8px;
+    transition: background 0.2s;
+  }
+  button[type="submit"]:hover { background: #153d75; }
+  .success { display: none; text-align: center; padding: 32px 0; }
+  .success-icon { font-size: 48px; margin-bottom: 12px; }
+  .success h2 { color: #1a4a8a; font-size: 20px; margin-bottom: 8px; }
+  .success p { color: #666; font-size: 14px; }
+  .footer { text-align: center; margin-top: 24px; font-size: 12px; color: #aaa; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo-area">
+    <p style="font-size:26px; font-weight:700; color:#1a4a8a; letter-spacing:0.02em;">Grupo Gaideski</p>
+    <p style="font-size:11px; color:#888; letter-spacing:0.15em; text-transform:uppercase; margin-top:4px;">Contábil Tributária</p>
+  </div>
+
+  <h1>Verificação Gaideski</h1>
+
+  <div id="form-container">
+    <form id="gaideski-form">
+      <input type="hidden" name="_subject" value="Novo formulário Gaideski - Verificação Cadastral">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_next" value="">
+
+      <div class="section-label">Dados cadastrais</div>
+
+      <div class="field">
+        <label>Nome da empresa <span>*</span></label>
+        <input type="text" name="nome_empresa" required placeholder="Razão social completa">
+      </div>
+
+      <div class="field">
+        <label>Nome dos sócios <span>*</span></label>
+        <input type="text" name="nome_socios" required placeholder="Nome completo dos sócios">
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label>CNPJ <span>*</span></label>
+          <input type="text" name="cnpj" required placeholder="00.000.000/0000-00">
+        </div>
+        <div class="field">
+          <label>Inscrição estadual <span>*</span></label>
+          <input type="text" name="inscricao_estadual" required placeholder="Inscrição estadual">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Regime tributário <span>*</span></label>
+        <select name="regime_tributario" required>
+          <option value="">Selecione...</option>
+          <option>Simples Nacional</option>
+          <option>Lucro Presumido</option>
+          <option>Lucro Real</option>
+          <option>MEI</option>
+        </select>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label>E-mail principal <span>*</span></label>
+          <input type="email" name="email" required placeholder="email@empresa.com.br">
+        </div>
+        <div class="field">
+          <label>Telefone / WhatsApp <span>*</span></label>
+          <input type="tel" name="telefone" required placeholder="(41) 99999-9999">
+        </div>
+      </div>
+
+      <div class="section-label">Informações complementares</div>
+
+      <div class="field">
+        <label>Ramo de atividade <span>*</span></label>
+        <input type="text" name="ramo_atividade" required placeholder="Ex: Comércio varejista, Prestação de serviços...">
+      </div>
+
+      <div class="field">
+        <label>Possui funcionários? Quantos? <span>*</span></label>
+        <select name="funcionarios" required>
+          <option value="">Selecione...</option>
+          <option>Não possui funcionários</option>
+          <option>1 funcionário</option>
+          <option>2 a 5 funcionários</option>
+          <option>6 a 10 funcionários</option>
+          <option>Mais de 10 funcionários</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Sistema CliniCorp <span>*</span></label>
+        <select name="clinicorp" required>
+          <option value="">Selecione...</option>
+          <option>Sim</option>
+          <option>Não</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Emite nota fiscal? <span>*</span></label>
+        <select name="nota_fiscal" required>
+          <option value="">Selecione...</option>
+          <option>Sim</option>
+          <option>Não</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Média de faturamento mensal <span>*</span></label>
+        <select name="faturamento_mensal" required>
+          <option value="">Selecione...</option>
+          <option>Até R$ 10.000</option>
+          <option>R$ 10.001 a R$ 30.000</option>
+          <option>R$ 30.001 a R$ 80.000</option>
+          <option>R$ 80.001 a R$ 150.000</option>
+          <option>Acima de R$ 150.000</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Possui filiais? <span>*</span></label>
+        <select name="filiais" required>
+          <option value="">Selecione...</option>
+          <option>Sim</option>
+          <option>Não</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Observações adicionais</label>
+        <textarea name="observacoes" placeholder="Informações relevantes sobre a empresa..."></textarea>
+      </div>
+
+      <button type="submit">Enviar informações</button>
+    </form>
+  </div>
+
+  <div class="success" id="success-msg">
+    <div class="success-icon">✅</div>
+    <h2>Informações enviadas!</h2>
+    <p>Recebemos seus dados com sucesso.<br>Em breve nossa equipe entrará em contato.</p>
+  </div>
+
+  <div class="footer">Gaideski Contabilidade e Associados &mdash; Santa Felicidade, Curitiba/PR</div>
+</div>
+
+<script>
+  const form = document.getElementById('gaideski-form');
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = form.querySelector('button[type="submit"]');
+    btn.textContent = 'Enviando...';
+    btn.disabled = true;
+
+    const data = new FormData(form);
+    const fields = {};
+    data.forEach((v, k) => { if (k !== '_subject' && k !== '_captcha' && k !== '_next') fields[k] = v; });
+
+    const body = Object.entries(fields).map(([k,v]) => `${k.replace(/_/g,' ').toUpperCase()}: ${v}`).join('\n');
+
+    try {
+      const res = await fetch('https://formspree.io/f/xkolgknv', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ email: 'jorge.dona@grupogaideski.com.br', message: body, ...fields })
+      });
+      document.getElementById('form-container').style.display = 'none';
+      document.getElementById('success-msg').style.display = 'block';
+    } catch(err) {
+      btn.textContent = 'Enviar informações';
+      btn.disabled = false;
+      alert('Erro ao enviar. Tente novamente.');
+    }
+  });
+</script>
+</body>
+</html>
